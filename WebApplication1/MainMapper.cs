@@ -5,14 +5,20 @@ using System.Threading.Tasks;
 
 namespace WebApplication1
 {
-    public abstract class MainMapper<TLeft, TRight>
+    public interface IMainMapper<TLeft, TRight>{
+        public TLeft Map(TRight RightSideElement);
+        public TRight Map(TLeft LeftSideElement);
+        public List<TLeft> Map(List<TRight> RightSideElement);
+        public List<TRight> Map(List<TLeft> LeftSideElement); 
+    }
+   /* public abstract class MainMapper<TLeft, TRight> : IMainMapper<TLeft, TRight>
     {
         // Override single element Map 
         public abstract TLeft Map(TRight RightSideElement);
         public abstract TRight Map(TLeft LeftSideElement);
 
-        // List of elements mappers 
-        public List<TLeft> Map(List<TRight> RightSideList)
+        // Mapping lists of elements 
+        public virtual List<TLeft> Map(List<TRight> RightSideList)
         {
             var TLeftList = new List<TLeft>(RightSideList.Count());
             foreach (var RightSideElem in RightSideList)
@@ -22,7 +28,7 @@ namespace WebApplication1
             return TLeftList;
         }
 
-        public List<TRight> Map(List<TLeft> LeftSideList)
+        public virtual List<TRight> Map(List<TLeft> LeftSideList)
         {
             var TRightList = new List<TRight>(LeftSideList.Count());
             foreach (var LeftSideElem in LeftSideList)
@@ -32,5 +38,5 @@ namespace WebApplication1
             return TRightList;
         } 
 
-    }
+    }*/
 }

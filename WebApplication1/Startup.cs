@@ -13,6 +13,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using WebApplication1.Profiles;
 using WebApplication1.Services;
+using WebApplication1.Dto;
 
 namespace WebApplication1
 {
@@ -24,7 +25,7 @@ namespace WebApplication1
         }
 
         public IConfiguration Configuration { get; }
-
+        
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -33,9 +34,8 @@ namespace WebApplication1
                 });
             services.AddTransient<MailNotifierService>();
             //Profile register
-            services.AddScoped<CurrentWeatherProfile>();
-            services.AddScoped<ForecastProfile>(); 
-
+            services.AddScoped<IMainMapper<BasicForecastDto, OpenWeatherForecastDaily>, ForecastProfile>();
+            services.AddScoped<IMainMapper<BasicCurrentWeatherDto, OpenWeatherCurrentWeatherDto>, CurrentWeatherProfile>();
             services.AddControllers(); 
         }
 

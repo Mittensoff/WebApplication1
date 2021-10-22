@@ -6,9 +6,9 @@ using WebApplication1.Dto;
 
 namespace WebApplication1.Profiles
 {
-    public class CurrentWeatherProfile : MainMapper<BasicCurrentWeatherDto, OpenWeatherCurrentWeatherDto>
+    public class CurrentWeatherProfile : IMainMapper<BasicCurrentWeatherDto, OpenWeatherCurrentWeatherDto>
     {
-        public override Dto.BasicCurrentWeatherDto Map(OpenWeatherCurrentWeatherDto RightSideElement)
+        public BasicCurrentWeatherDto Map(OpenWeatherCurrentWeatherDto RightSideElement)
         {
             return new BasicCurrentWeatherDto
             {
@@ -21,10 +21,19 @@ namespace WebApplication1.Profiles
             };
         }
 
-        public override OpenWeatherCurrentWeatherDto Map(Dto.BasicCurrentWeatherDto LeftSideElement)
+        public  OpenWeatherCurrentWeatherDto Map( BasicCurrentWeatherDto LeftSideElement)
+        {
+            throw new NotImplementedException();
+        }
+        
+        public List<BasicCurrentWeatherDto> Map(List<OpenWeatherCurrentWeatherDto> RightSideElement)
         {
             throw new NotImplementedException();
         }
 
+        public List<OpenWeatherCurrentWeatherDto> Map(List<BasicCurrentWeatherDto> LeftSideElement)
+        {
+            throw new NotImplementedException();
+        }
      }
 }

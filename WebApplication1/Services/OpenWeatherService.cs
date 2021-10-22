@@ -16,16 +16,17 @@ namespace WebApplication1.Services
         private readonly HttpClient _httpClient;
         private readonly IConfiguration _config;
 
-        private readonly ForecastProfile _forecastProfile;
-        private readonly CurrentWeatherProfile _currentWeatherProfile;
+        private readonly IMainMapper<BasicForecastDto, OpenWeatherForecastDaily> _basicForecastProfile;
+        private readonly IMainMapper<BasicCurrentWeatherDto, OpenWeatherCurrentWeatherDto> _basicCurrentWeatherProfile;
 
         private static readonly JsonSerializerOptions Options = new JsonSerializerOptions();
 
-        public OpenWeatherService(HttpClient HttpClient, IConfiguration config, ForecastProfile forecastProfile, CurrentWeatherProfile currentWeatherProfile)
+        public OpenWeatherService(HttpClient HttpClient, IConfiguration config, IMainMapper<BasicForecastDto, OpenWeatherForecastDaily> basicForecastProfile, 
+        IMainMapper<BasicCurrentWeatherDto, OpenWeatherCurrentWeatherDto> basicCurrentWeatherProfile)
         {
             _config = config;
-            _forecastProfile = forecastProfile;
-            _currentWeatherProfile = currentWeatherProfile; 
+            _basicForecastProfile = basicForecastProfile;
+            _basicCurrentWeatherProfile = basicCurrentWeatherProfile; 
 
             _httpClient = HttpClient;
             _httpClient.BaseAddress = new Uri("https://api.openweathermap.org/data/2.5/");
@@ -51,7 +52,7 @@ namespace WebApplication1.Services
 
                 var responseCurrentWeather = await JsonSerializer.DeserializeAsync<OpenWeatherCurrentWeatherDto>(responseStream, Options);
                  
-                var CurrentWeather = _currentWeatherProfile.Map(responseCurrentWeather);
+                var CurrentWeather = _basicCurrentWeatherProfile.Map(responseCurrentWeather);
                 await responseStream.FlushAsync();
 
                 return CurrentWeather;
@@ -69,14 +70,14 @@ namespace WebApplication1.Services
             uriBuilderParams.Query =  queryParams.ToString();
 
             var response = await _httpClient.GetAsync("onecall" + uriBuilderParams.Query); 
-
+            
             response.EnsureSuccessStatusCode();
              
             using (var responseStream = await response.Content.ReadAsStreamAsync())
             {
                 var responseForecast = await JsonSerializer.DeserializeAsync<OpenWeatherForecastDaily>(responseStream, Options);
 
-                var basicForecast = _forecastProfile.Map(responseForecast);
+                var basicForecast = _basicForecastProfile.Map(responseForecast);
                 await responseStream.FlushAsync();
 
                 return basicForecast; 

@@ -16,11 +16,14 @@ namespace WebApplication1.Controllers
         private readonly ILogger<OpenWeatherController> _logger;
         private readonly OpenWeatherService _openWeatherClient;
         private readonly MailNotifierService _mailNotifierService;
-        public OpenWeatherController(ILogger<OpenWeatherController> logger, OpenWeatherService OpenWeatherClient, MailNotifierService mailNotifierService)
+        private readonly IMainMapper<BasicForecastDto, OpenWeatherForecastDaily> _mainMapper;
+        public OpenWeatherController(ILogger<OpenWeatherController> logger,  OpenWeatherService OpenWeatherClient, MailNotifierService mailNotifierService,
+        IMainMapper<BasicForecastDto, OpenWeatherForecastDaily> mainMapper)
         {
             _logger = logger;
             _openWeatherClient = OpenWeatherClient;
             _mailNotifierService = mailNotifierService;
+            _mainMapper = mainMapper;
         }
 
         [HttpGet]
@@ -31,7 +34,7 @@ namespace WebApplication1.Controllers
             await _mailNotifierService.NotifyGidra("asdf", "asdfasdffdaafsddfs");
             return currentWeather;
         }
-        
+         
         [HttpGet]
         [Route("OpenWeather/forecast")]
         public async Task<BasicForecastDto> Get(decimal lat, decimal lon)
@@ -39,6 +42,6 @@ namespace WebApplication1.Controllers
             var forecast = await _openWeatherClient.GetForecast(lat, lon);
             return forecast;
         }
-        //GetForecast
+         
     }
 }

@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using WebApplication1.Dto;
 
 namespace WebApplication1.Profiles
 {
-    public class ForecastProfile : MainMapper<BasicForecastDto, OpenWeatherForecastDaily>
+    
+    public class ForecastProfile : IMainMapper<BasicForecastDto, OpenWeatherForecastDaily>
     {
-        public override BasicForecastDto Map(OpenWeatherForecastDaily RightSideElement)
+        public BasicForecastDto Map(OpenWeatherForecastDaily RightSideElement)
         {
             return new BasicForecastDto
             {
@@ -21,10 +20,25 @@ namespace WebApplication1.Profiles
                 WindSpeed = (decimal)RightSideElement.daily[1].wind_speed
             };
         }
+        
 
-        public override OpenWeatherForecastDaily Map(BasicForecastDto LeftSideElement)
+        public OpenWeatherForecastDaily Map(BasicForecastDto LeftSideElement)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<BasicForecastDto> Map(List<OpenWeatherForecastDaily> RightSideElement)
+        {
+            throw new NotImplementedException();
+        }   
+
+        public List<OpenWeatherForecastDaily> Map(List<BasicForecastDto> LeftSideElement)
         {
             throw new NotImplementedException();
         }
     }
+
 }
+
+
+
