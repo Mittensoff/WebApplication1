@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace WebApplication1.Dto
 {
     public class BasicCurrentWeatherDto
-    {
+    {   //TODO: 
         public string WeatherDescription { get; set; }
         public decimal TemperatureK { get; set; }
         public decimal TemperatureC { get; set; }

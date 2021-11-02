@@ -20,6 +20,7 @@ namespace WebApplication1.Profiles
                 WindSpeed = (decimal)RightSideElement.daily[1].wind_speed
             };
         }
+
         
 
         public OpenWeatherForecastDaily Map(BasicForecastDto LeftSideElement)
@@ -38,6 +39,7 @@ namespace WebApplication1.Profiles
         }
     }
 
+    
 }
 
 
